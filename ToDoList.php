@@ -1,29 +1,13 @@
 <?php
-    use ToDoItem;
 
     class TodoList {
 
-        private int $id;
-        private string $name;
         private array $items;
 
-        public function __construct(int $id, string $name) {
-            $this->id = $id;
-            $this->name = $name;
+        public function __construct() {
             $this->items = [];
         }
 
-        public function getId(): int {
-            return $this->id;
-        }
-
-        public function getName(): string {
-            return $this->name;
-        }
-
-        public function setName(string $name) {
-            $this->name = $name;
-        }
 
         public function getItems(): array {
             return $this->items;
@@ -31,6 +15,15 @@
 
         public function addItem(ToDoItem $item) {
             $this->items[] = $item;
+        }
+
+        public function findById(int $id): ?ToDoItem {
+            foreach ($this->items as $item) {
+                if ($item->getId() === $id) {
+                    return $item;
+                }
+            }
+            return null;
         }
 
         public function removeItem(int $id) {
@@ -41,5 +34,11 @@
                 }
             }
         }
+
+        public function toArray(): array {
+            return array_map(fn($item) => $item->toArray(), $this->items);
+        }
+
+        
         
     }

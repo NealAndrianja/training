@@ -21,7 +21,7 @@ class ToDoItem
         $this->id          = ++self::$counter;
         $this->title       = $title;
         $this->description = $description;
-        $this->priority    = new Priority($priority);
+        $this->priority    = Priority::tryFrom($priority);
         $this->dueDate     = new DateTime($dueDate);
         $this->completed   = $completed;
     }
@@ -88,13 +88,15 @@ class ToDoItem
             "title"       => $this->title,
             "description" => $this->description,
             "dueDate"     => $this->dueDate->format("Y-m-d"),
-            "priority"    => $this->priority,
+            "priority"    => $this->priority->value,
             "completed"   => $this->completed,
         ];
     }
 
     public static function fromArray($data): ToDoItem
     {
-        return new self($data['id'], $data['title'], $data['description'], $data['priority'], $data['dueDate'], $data['completed']);
+        $priority = Priority::tryFrom($data['priority']) ?? Priority::MEDIUM; // Convert to enum, default to MEDIUM if invalid
+
+        return new self($data['title'], $data['description'], $data["priority"], $data['dueDate'], $data['completed']);
     }
 }
