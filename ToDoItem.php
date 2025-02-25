@@ -11,12 +11,12 @@
             $this->completed = $completed;
         }
 
-        public function getId()
+        public function getId(): int
         {
             return $this->id;
         }
 
-        public function getTask()
+        public function getTask(): string
         {
             return $this->task;
         }
@@ -26,7 +26,7 @@
             $this->task = $task;
         }
 
-        public function isCompleted()
+        public function isCompleted(): bool
         {
             return $this->completed;
         }
@@ -36,7 +36,7 @@
             $this->completed = !$this->completed;
         }
 
-        public function toArray()
+        public function toArray(): array
         {
             return [
                 'id' => $this->id,
@@ -45,7 +45,7 @@
             ];
         }
 
-        public static function fromArray($data)
+        public static function fromArray($data): ToDoItem
         {
             return new self($data['id'], $data['task'], $data['completed']);
         }
